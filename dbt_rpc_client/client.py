@@ -1,3 +1,4 @@
+import base64
 import json
 import uuid
 from typing import Dict, List
@@ -87,10 +88,8 @@ class DbtRpcClient(object):
 
         if models is not None:
             data["params"]["models"] = ' '.join(models)
-
         if exclude is not None:
             data["params"]["exclude"] = ' '.join(exclude)
-
         if kwargs is not None:
             data["params"]["task_tags"] = kwargs
 
@@ -102,11 +101,69 @@ class DbtRpcClient(object):
 
         if models is not None:
             data["params"]["models"] = ' '.join(models)
-
         if exclude is not None:
             data["params"]["exclude"] = ' '.join(exclude)
+        if kwargs is not None:
+            data["params"]["task_tags"] = kwargs
+
+        return self._post(data=json.dumps(data))
+
+    def test(self, models: List[str] = None, exclude: List[str] = None, data: bool = True, schema: bool = True, **kwargs) -> Dict:
+        data = self._default_request(method='test')
+        data["params"] = {
+            "data": data,
+            "schema": schema
+        }
+
+        if models is not None:
+            data["params"]["models"] = ' '.join(models)
+        if exclude is not None:
+            data["params"]["exclude"] = ' '.join(exclude)
+        if kwargs is not None:
+            data["params"]["task_tags"] = kwargs
+
+        return self._post(data=json.dumps(data))
+
+    def seed(self, show: bool = False, **kwargs) -> Dict:
+        data = self._default_request(method='seed')
+        data["params"] = {
+            "show": show
+        }
 
         if kwargs is not None:
             data["params"]["task_tags"] = kwargs
 
+        return self._post(data=json.dumps(data))
+
+    def generate_docs(self, models: List[str] = None, exclude: List[str] = None, compile: bool = False, **kwargs) -> Dict:
+        data = self._default_request(method='docs.generate')
+        data["params"] = {
+            "compile": compile
+        }
+
+        if models is not None:
+            data["params"]["models"] = ' '.join(models)
+        if exclude is not None:
+            data["params"]["exclude"] = ' '.join(exclude)
+        if kwargs is not None:
+            data["params"]["task_tags"] = kwargs
+
+        return self._post(data=json.dumps(data))
+
+    def compile_sql(self, sql: str, name: str, timeout: int = 60) -> Dict:
+        data = self._default_request(method='compile_sql')
+        data["params"] = {
+            "sql": base64.b64encode(sql),
+            "timeout": timeout,
+            "name": name
+        }
+        return self._post(data=json.dumps(data))
+
+    def run_sql(self, sql: str, name: str, timeout: int = 60) -> Dict:
+        data = self._default_request(method='run_sql')
+        data["params"] = {
+            "sql": base64.b64encode(sql),
+            "timeout": timeout,
+            "name": name
+        }
         return self._post(data=json.dumps(data))
