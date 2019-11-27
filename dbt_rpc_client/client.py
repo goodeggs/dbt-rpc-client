@@ -108,6 +108,19 @@ class DbtRpcClient(object):
 
         return self._post(data=json.dumps(data))
 
+    def snapshot(self, select: List[str] = None, exclude: List[str] = None, **kwargs) -> Dict:
+        'Runs a dbt snapshot command.'
+        data = self._default_request(method='snapshot')
+
+        if select is not None:
+            data["params"]["select"] = ' '.join(models)
+        if exclude is not None:
+            data["params"]["exclude"] = ' '.join(exclude)
+        if kwargs is not None:
+            data["params"]["task_tags"] = kwargs
+
+        return self._post(data=json.dumps(data))
+
     def test(self, models: List[str] = None, exclude: List[str] = None, data: bool = True, schema: bool = True, **kwargs) -> Dict:
         data = self._default_request(method='test')
         data["params"] = {
@@ -148,6 +161,13 @@ class DbtRpcClient(object):
         if kwargs is not None:
             data["params"]["task_tags"] = kwargs
 
+        return self._post(data=json.dumps(data))
+
+    def run_operation(self, macro: str) -> Dict:
+        data = self._default_request(method='run-operation')
+        data["params"] = {
+            "macro": macro
+        }
         return self._post(data=json.dumps(data))
 
     def compile_sql(self, sql: str, name: str, timeout: int = 60) -> Dict:
