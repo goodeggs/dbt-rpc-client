@@ -153,7 +153,7 @@ class DbtRpcClient(object):
     def compile_sql(self, sql: str, name: str, timeout: int = 60) -> Dict:
         data = self._default_request(method='compile_sql')
         data["params"] = {
-            "sql": base64.b64encode(sql),
+            "sql": str(base64.b64encode(bytes(sql, 'utf-8'))),
             "timeout": timeout,
             "name": name
         }
@@ -162,7 +162,7 @@ class DbtRpcClient(object):
     def run_sql(self, sql: str, name: str, timeout: int = 60) -> Dict:
         data = self._default_request(method='run_sql')
         data["params"] = {
-            "sql": base64.b64encode(sql),
+            "sql": str(base64.b64encode(bytes(sql, 'utf-8'))),
             "timeout": timeout,
             "name": name
         }
