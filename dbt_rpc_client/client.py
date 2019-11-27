@@ -77,9 +77,12 @@ class DbtRpcClient(object):
         'Terminates a running RPC task.'
         data = self._default_request(method='cli_args')
         data["params"] = {
-            "cli_args": cli_args,
-            "task_tags": kwargs
+            "cli_args": cli_args
         }
+
+        if kwargs is not None:
+            data["params"]["task_tags"] = kwargs
+
         return self._post(data=json.dumps(data))
 
     def compile(self, models: List[str] = None, exclude: List[str] = None, **kwargs) -> Dict:
@@ -122,20 +125,20 @@ class DbtRpcClient(object):
         return self._post(data=json.dumps(data))
 
     def test(self, models: List[str] = None, exclude: List[str] = None, data: bool = True, schema: bool = True, **kwargs) -> Dict:
-        data = self._default_request(method='test')
-        data["params"] = {
+        payload = self._default_request(method='test')
+        payload["params"] = {
             "data": data,
             "schema": schema
         }
 
         if models is not None:
-            data["params"]["models"] = ' '.join(models)
+            payload["params"]["models"] = ' '.join(models)
         if exclude is not None:
-            data["params"]["exclude"] = ' '.join(exclude)
+            payload["params"]["exclude"] = ' '.join(exclude)
         if kwargs is not None:
-            data["params"]["task_tags"] = kwargs
+            payload["params"]["task_tags"] = kwargs
 
-        return self._post(data=json.dumps(data))
+        return self._post(data=json.dumps(payload))
 
     def seed(self, show: bool = False, **kwargs) -> Dict:
         data = self._default_request(method='seed')
