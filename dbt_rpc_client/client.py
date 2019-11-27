@@ -113,7 +113,7 @@ class DbtRpcClient(object):
         data = self._default_request(method='snapshot')
 
         if select is not None:
-            data["params"]["select"] = ' '.join(models)
+            data["params"]["select"] = ' '.join(select)
         if exclude is not None:
             data["params"]["exclude"] = ' '.join(exclude)
         if kwargs is not None:
