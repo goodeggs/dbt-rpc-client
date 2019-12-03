@@ -89,10 +89,11 @@ class DbtRpcClient(object):
         'Runs a dbt compile command.'
         data = self._default_request(method='compile')
 
+        data["params"] = {}
         if models is not None:
-            data["params"]["models"] = ' '.join(models)
+            data["params"]["models"] = ' '.join(set(models))
         if exclude is not None:
-            data["params"]["exclude"] = ' '.join(exclude)
+            data["params"]["exclude"] = ' '.join(set(exclude))
         if kwargs is not None:
             data["params"]["task_tags"] = kwargs
 
@@ -102,10 +103,11 @@ class DbtRpcClient(object):
         'Runs a dbt run command.'
         data = self._default_request(method='run')
 
+        data["params"] = {}
         if models is not None:
-            data["params"]["models"] = ' '.join(models)
+            data["params"]["models"] = ' '.join(set(models))
         if exclude is not None:
-            data["params"]["exclude"] = ' '.join(exclude)
+            data["params"]["exclude"] = ' '.join(set(exclude))
         if kwargs is not None:
             data["params"]["task_tags"] = kwargs
 
@@ -115,10 +117,11 @@ class DbtRpcClient(object):
         'Runs a dbt snapshot command.'
         data = self._default_request(method='snapshot')
 
+        data["params"] = {}
         if select is not None:
-            data["params"]["select"] = ' '.join(select)
+            data["params"]["select"] = ' '.join(set(select))
         if exclude is not None:
-            data["params"]["exclude"] = ' '.join(exclude)
+            data["params"]["exclude"] = ' '.join(set(exclude))
         if kwargs is not None:
             data["params"]["task_tags"] = kwargs
 
@@ -132,9 +135,9 @@ class DbtRpcClient(object):
         }
 
         if models is not None:
-            payload["params"]["models"] = ' '.join(models)
+            payload["params"]["models"] = ' '.join(set(models))
         if exclude is not None:
-            payload["params"]["exclude"] = ' '.join(exclude)
+            payload["params"]["exclude"] = ' '.join(set(exclude))
         if kwargs is not None:
             payload["params"]["task_tags"] = kwargs
 
@@ -158,9 +161,9 @@ class DbtRpcClient(object):
         }
 
         if models is not None:
-            data["params"]["models"] = ' '.join(models)
+            data["params"]["models"] = ' '.join(set(models))
         if exclude is not None:
-            data["params"]["exclude"] = ' '.join(exclude)
+            data["params"]["exclude"] = ' '.join(set(exclude))
         if kwargs is not None:
             data["params"]["task_tags"] = kwargs
 
