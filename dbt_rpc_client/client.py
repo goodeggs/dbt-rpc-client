@@ -40,7 +40,8 @@ class DbtRpcClient(object):
         data = {
             "jsonrpc": self.jsonrpc_version,
             "method": method,
-            "id": str(uuid.uuid1())
+            "id": str(uuid.uuid1()),
+            "params": {}
         }
         return data
 
@@ -89,7 +90,6 @@ class DbtRpcClient(object):
         'Runs a dbt compile command.'
         data = self._default_request(method='compile')
 
-        data["params"] = {}
         if models is not None:
             data["params"]["models"] = ' '.join(set(models))
         if exclude is not None:
@@ -103,7 +103,6 @@ class DbtRpcClient(object):
         'Runs a dbt run command.'
         data = self._default_request(method='run')
 
-        data["params"] = {}
         if models is not None:
             data["params"]["models"] = ' '.join(set(models))
         if exclude is not None:
@@ -117,7 +116,6 @@ class DbtRpcClient(object):
         'Runs a dbt snapshot command.'
         data = self._default_request(method='snapshot')
 
-        data["params"] = {}
         if select is not None:
             data["params"]["select"] = ' '.join(set(select))
         if exclude is not None:
