@@ -45,6 +45,17 @@ class DbtRpcClient(object):
         }
         return data
 
+    def _selection(self, models: List[str] = None, select: List[str] = None, exclude: List[str] = None) -> Dict:
+        params = {}
+        if models is not None:
+            params["models"] = ' '.join(set(models))
+        if select is not None:
+            params["select"] = ' '.join(set(select))
+        if exclude is not None:
+            params["exclude"] = ' '.join(set(exclude))
+
+        return params
+
     def status(self) -> Dict:
         data = self._default_request(method='status')
         return self._post(data=json.dumps(data))
@@ -89,11 +100,8 @@ class DbtRpcClient(object):
     def compile(self, models: List[str] = None, exclude: List[str] = None, **kwargs) -> Dict:
         'Runs a dbt compile command.'
         data = self._default_request(method='compile')
+        data["params"].update(self._selection(models=models, exclude=exclude))
 
-        if models is not None:
-            data["params"]["models"] = ' '.join(set(models))
-        if exclude is not None:
-            data["params"]["exclude"] = ' '.join(set(exclude))
         if kwargs is not None:
             data["params"]["task_tags"] = kwargs
 
@@ -102,11 +110,8 @@ class DbtRpcClient(object):
     def run(self, models: List[str] = None, exclude: List[str] = None, **kwargs) -> Dict:
         'Runs a dbt run command.'
         data = self._default_request(method='run')
+        data["params"].update(self._selection(models=models, exclude=exclude))
 
-        if models is not None:
-            data["params"]["models"] = ' '.join(set(models))
-        if exclude is not None:
-            data["params"]["exclude"] = ' '.join(set(exclude))
         if kwargs is not None:
             data["params"]["task_tags"] = kwargs
 
