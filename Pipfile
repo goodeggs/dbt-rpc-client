@@ -9,6 +9,7 @@ name = "pypi"
 dbt-rpc-client = {path = ".", editable = true}
 isort = "*"
 flake8 = "*"
+mypy = "*"
 pytest = "*"
 tox = "*"
 

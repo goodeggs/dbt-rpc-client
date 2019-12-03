@@ -27,7 +27,7 @@ class DbtRpcClient(object):
         headers["Content-Type"] = "application/json"
         return headers
 
-    def _post(self, data: Dict = None) -> Dict:
+    def _post(self, data: str = None) -> Dict:
         '''Constructs a standard way of making
         a POST request to the dbt RPC server.
         '''
