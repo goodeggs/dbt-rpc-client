@@ -17,15 +17,13 @@ $ pip install dbt-rpc-client
 
 ```python
 from dbt_rpc_client import DbtRpcClient
+import requests
 
 rpc = DbtRpcClient(hostname="0.0.0.0", port=8580)
 
 # Getting the current status of the dbt rpc server.
 response = rpc.status()
-assert response.ok
-
-# Polling a dbt rpc operation.
-response = rpc.poll(request_token="1234abcd")
+assert isinstance(response, requests.Response)
 assert response.ok
 
 # Running dbt models via CLI command.
@@ -35,6 +33,11 @@ assert response.ok
 # Running dbt models via `run` method.
 response = rpc.run(models=["@model1", "+model2+"])
 assert response.ok
+
+# Polling a dbt rpc operation.
+response = rpc.poll(request_token=response.get("id"))
+assert response.ok
+print(response.get("result").get("status"))
 
 # Compiling/Running a SQL query.
 sql = """
