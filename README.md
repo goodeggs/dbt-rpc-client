@@ -1,4 +1,9 @@
 # dbt-rpc-client
+[![PyPI version](https://badge.fury.io/py/dbt-rpc-client.svg)](https://badge.fury.io/py/dbt-rpc-client)
+![PyPI - Status](https://img.shields.io/pypi/status/dbt-rpc-client)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/dbt-rpc-client)
+![PyPI - License](https://img.shields.io/pypi/l/dbt-rpc-client)
+[![Build Status](https://travis-ci.com/goodeggs/dbt-rpc-client.svg?branch=master)](https://travis-ci.com/goodeggs/dbt-rpc-client.svg?branch=master)
 
 A python SDK for interacting with a [dbt rpc server](https://docs.getdbt.com/docs/rpc).
 
