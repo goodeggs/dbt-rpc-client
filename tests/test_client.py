@@ -51,7 +51,7 @@ def test_status(client):
                  json=expected, status=202)
 
         resp = client.status()
-        assert resp == expected
+        assert resp.json() == expected
 
 
 def test_poll(client):
@@ -75,4 +75,4 @@ def test_poll(client):
                  json=expected, status=202)
 
         resp = client.poll(request_token="f86926fa-6535-4891-8d24-2cfc65d2a347")
-        assert resp == expected
+        assert resp.json() == expected

@@ -39,12 +39,12 @@ class DbtRpcClient(object):
         headers["Accept"] = "application/json"
         return headers
 
-    def _post(self, data: str = None) -> Dict:
+    def _post(self, data: str = None) -> requests.Response:
         '''Constructs a standard way of making a POST request to the dbt RPC server.'''
         headers = self._construct_headers()
         response = requests.post(self.url, headers=headers, data=data)
         response.raise_for_status()
-        return response.json()
+        return response
 
     def _default_request(self, method: str) -> Dict:
         data = {
