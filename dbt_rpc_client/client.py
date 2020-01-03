@@ -15,8 +15,8 @@ from .version import __version__
 class DbtRpcClient(object):
 
     host: str = attr.ib(default="0.0.0.0")
-    port: int = attr.ib(attr.validators.instance_of(int), default=8580)
-    jsonrpc_version: str = attr.ib(attr.validators.instance_of(str), default="2.0")
+    port: int = attr.ib(validator=attr.validators.instance_of(int), default=8580)
+    jsonrpc_version: str = attr.ib(validator=attr.validators.instance_of(str), default="2.0")
     url: str = attr.ib(init=False)
 
     def __attrs_post_init__(self):
