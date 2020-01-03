@@ -36,8 +36,8 @@ setuptools.setup(
     license='MIT',
     packages=setuptools.find_packages(exclude=['tests']),
     install_requires=[
-        'requests==2.22.0',
-        'attrs==19.3.0'
+        'requests>=2.22.0',
+        'attrs>=19.3.0'
     ],
     python_requires='>=3.6'
 )
