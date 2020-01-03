@@ -66,11 +66,11 @@ class DbtRpcClient(object):
 
         return params
 
-    def status(self) -> Dict:
+    def status(self) -> requests.Response:
         data = self._default_request(method='status')
         return self._post(data=json.dumps(data))
 
-    def poll(self, *, request_token: str, logs: bool = False, logs_start: int = 0) -> Dict:
+    def poll(self, *, request_token: str, logs: bool = False, logs_start: int = 0) -> requests.Response:
         data = self._default_request(method='poll')
         data["params"] = {
             "request_token": request_token,
@@ -79,7 +79,7 @@ class DbtRpcClient(object):
         }
         return self._post(data=json.dumps(data))
 
-    def ps(self, *, completed: bool = False) -> Dict:
+    def ps(self, *, completed: bool = False) -> requests.Response:
         'Lists running and completed processes executed by the RPC server.'
         data = self._default_request(method='ps')
         data["params"] = {
@@ -87,7 +87,7 @@ class DbtRpcClient(object):
         }
         return self._post(data=json.dumps(data))
 
-    def kill(self, *, task_id: str) -> Dict:
+    def kill(self, *, task_id: str) -> requests.Response:
         'Terminates a running RPC task.'
         data = self._default_request(method='kill')
         data["params"] = {
@@ -95,7 +95,7 @@ class DbtRpcClient(object):
         }
         return self._post(data=json.dumps(data))
 
-    def cli(self, *, cli_args: str, **kwargs) -> Dict:
+    def cli(self, *, cli_args: str, **kwargs) -> requests.Response:
         'Terminates a running RPC task.'
         data = self._default_request(method='cli_args')
         data["params"] = {
@@ -107,7 +107,7 @@ class DbtRpcClient(object):
 
         return self._post(data=json.dumps(data))
 
-    def compile(self, *, models: List[str] = None, exclude: List[str] = None, **kwargs) -> Dict:
+    def compile(self, *, models: List[str] = None, exclude: List[str] = None, **kwargs) -> requests.Response:
         'Runs a dbt compile command.'
         data = self._default_request(method='compile')
         data["params"].update(self._selection(models=models, exclude=exclude))
@@ -117,7 +117,7 @@ class DbtRpcClient(object):
 
         return self._post(data=json.dumps(data))
 
-    def run(self, *, models: List[str] = None, exclude: List[str] = None, **kwargs) -> Dict:
+    def run(self, *, models: List[str] = None, exclude: List[str] = None, **kwargs) -> requests.Response:
         'Runs a dbt run command.'
         data = self._default_request(method='run')
         data["params"].update(self._selection(models=models, exclude=exclude))
@@ -127,7 +127,7 @@ class DbtRpcClient(object):
 
         return self._post(data=json.dumps(data))
 
-    def snapshot(self, *, select: List[str] = None, exclude: List[str] = None, **kwargs) -> Dict:
+    def snapshot(self, *, select: List[str] = None, exclude: List[str] = None, **kwargs) -> requests.Response:
         'Runs a dbt snapshot command.'
         data = self._default_request(method='snapshot')
         data["params"].update(self._selection(select=select, exclude=exclude))
@@ -137,7 +137,7 @@ class DbtRpcClient(object):
 
         return self._post(data=json.dumps(data))
 
-    def test(self, *, models: List[str] = None, exclude: List[str] = None, data: bool = True, schema: bool = True, **kwargs) -> Dict:
+    def test(self, *, models: List[str] = None, exclude: List[str] = None, data: bool = True, schema: bool = True, **kwargs) -> requests.Response:
         payload = self._default_request(method='test')
         payload["params"] = {
             "data": data,
@@ -151,7 +151,7 @@ class DbtRpcClient(object):
 
         return self._post(data=json.dumps(payload))
 
-    def seed(self, *, show: bool = False, **kwargs) -> Dict:
+    def seed(self, *, show: bool = False, **kwargs) -> requests.Response:
         data = self._default_request(method='seed')
         data["params"] = {
             "show": show
@@ -162,7 +162,7 @@ class DbtRpcClient(object):
 
         return self._post(data=json.dumps(data))
 
-    def generate_docs(self, *, models: List[str] = None, exclude: List[str] = None, compile: bool = False, **kwargs) -> Dict:
+    def generate_docs(self, *, models: List[str] = None, exclude: List[str] = None, compile: bool = False, **kwargs) -> requests.Response:
         data = self._default_request(method='docs.generate')
         data["params"] = {
             "compile": compile
@@ -175,14 +175,14 @@ class DbtRpcClient(object):
 
         return self._post(data=json.dumps(data))
 
-    def run_operation(self, *, macro: str) -> Dict:
+    def run_operation(self, *, macro: str) -> requests.Response:
         data = self._default_request(method='run-operation')
         data["params"] = {
             "macro": macro
         }
         return self._post(data=json.dumps(data))
 
-    def compile_sql(self, *, sql: str, name: str, timeout: int = 60) -> Dict:
+    def compile_sql(self, *, sql: str, name: str, timeout: int = 60) -> requests.Response:
         data = self._default_request(method='compile_sql')
         data["params"] = {
             "sql": str(base64.b64encode(bytes(sql, 'utf-8'))),
@@ -191,7 +191,7 @@ class DbtRpcClient(object):
         }
         return self._post(data=json.dumps(data))
 
-    def run_sql(self, *, sql: str, name: str, timeout: int = 60) -> Dict:
+    def run_sql(self, *, sql: str, name: str, timeout: int = 60) -> requests.Response:
         data = self._default_request(method='run_sql')
         data["params"] = {
             "sql": str(base64.b64encode(bytes(sql, 'utf-8'))),
